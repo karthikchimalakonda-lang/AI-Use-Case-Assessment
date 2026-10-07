@@ -1,0 +1,71 @@
+{
+  "pillar": "HCM",
+  "module": "Recruiting",
+  "triggered_by": "weekly_refresh",
+  "requested_by_case_id": null,
+  "processes": [
+    {
+      "process_id": "PROC-REC-001",
+      "process_name": "Job Requisition Management",
+      "usecases": [
+        {
+          "case_id": "UC-REC-001-01",
+          "title": "Create Job Requisition",
+          "business_usecase": "HR Manager creates a job requisition when a new vacancy arises due to attrition or business expansion. The system validates headcount budget, captures job details, grade, department, and routes for approval via configurable workflow.",
+          "external_config": "Requisition approval workflow configured with 3 levels: Line Manager → HR BP → Finance. Auto-approval threshold set for grade below G5. Integration with external job boards via REST API.",
+          "internal_config": "Headcount table linked to cost-centre. Budget validation rule fires on submit. Notification templates configured in BIP for approver emails. Role-based access: Recruiter, HR Manager, Finance Controller.",
+          "last_updated": "2026-07-01T10:00:00Z",
+          "version": 3
+        },
+        {
+          "case_id": "UC-REC-001-02",
+          "title": "Requisition Approval & Rejection Flow",
+          "business_usecase": "Approvers receive bell notification and email. They can approve, reject with comments, or delegate. On final approval the requisition status changes to 'Open' and triggers posting to configured job boards.",
+          "external_config": "Delegation rules set per role. Escalation timer: 48 hours before auto-escalate to next level. Reject notification sends back to initiator with mandatory comment.",
+          "internal_config": "BPM workflow with parallel vs sequential mode toggle. Notification channel: In-App + Email. Audit trail captured in requisition history tab.",
+          "last_updated": "2026-06-20T08:30:00Z",
+          "version": 2
+        }
+      ]
+    },
+    {
+      "process_id": "PROC-REC-002",
+      "process_name": "Candidate Sourcing & Application",
+      "usecases": [
+        {
+          "case_id": "UC-REC-002-01",
+          "title": "External Career Site Application",
+          "business_usecase": "Candidates search and apply for positions via the external career portal. They create a profile, upload resume, answer screening questions, and submit application. System deduplicates candidate profiles based on email.",
+          "external_config": "Career site branded with company theme. GDPR consent banner enabled. Resume parsing via third-party AI parser. Job board syndication to configured external job boards.",
+          "internal_config": "Screening questionnaire configured per requisition template. Minimum score threshold 60% to advance. Duplicate check on email + phone. Auto-acknowledgement email on submission.",
+          "last_updated": "2026-07-05T14:00:00Z",
+          "version": 1
+        },
+        {
+          "case_id": "UC-REC-002-02",
+          "title": "Employee Referral Submission",
+          "business_usecase": "Employees refer external candidates for open positions and track referral status. Referral bonus is triggered automatically when referred candidate completes 90-day probation.",
+          "external_config": "Referral portal accessible from employee self-service. Email invite sent to referred candidate with tracking token. Bonus payout integrated with Payroll module.",
+          "internal_config": "Referral bonus amount configured per grade band. 90-day timer starts from offer accept date. Payroll element 'Referral Bonus' mapped in compensation config.",
+          "last_updated": "2026-05-15T09:00:00Z",
+          "version": 2
+        }
+      ]
+    },
+    {
+      "process_id": "PROC-REC-003",
+      "process_name": "Interview & Selection",
+      "usecases": [
+        {
+          "case_id": "UC-REC-003-01",
+          "title": "Interview Scheduling & Feedback",
+          "business_usecase": "Recruiter schedules interview panels, system sends calendar invites. Interviewers fill structured feedback forms. Hiring committee reviews consolidated feedback and decides advance/reject/hold.",
+          "external_config": "Calendar sync with corporate mail via connector. Video interview integration with a meeting platform. Structured feedback form with competency rating 1-5 and mandatory comments.",
+          "internal_config": "Interview panel composition rules per job family. Feedback submission deadline: 24 hours post interview. Auto-reminder at T-1 hour. Hiring committee role configured per business unit.",
+          "last_updated": "2026-07-08T11:00:00Z",
+          "version": 4
+        }
+      ]
+    }
+  ]
+}

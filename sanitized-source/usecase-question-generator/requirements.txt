@@ -1,0 +1,17 @@
+# OCI Function 1 — UseCase AI Question Generator
+# Python 3.11
+
+# OCI SDK
+oci>=2.126.0
+
+# OCI Functions Developer Kit
+fdk>=0.1.67
+
+# ChromaDB — vector store (persisted to Object Storage as zip)
+chromadb>=0.5.0
+
+# Sentence Transformers — default embedding for ChromaDB (all-MiniLM-L6-v2)
+sentence-transformers>=2.7.0
+
+# Utilities
+requests>=2.31.0

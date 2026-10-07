@@ -1,0 +1,22 @@
+flowchart LR
+    ADMIN[Use case authors\nERP pillar / module / process] --> APP[Use Case Library application\nUI + API + database]
+    SCHED[Weekly scheduled refresh] --> FN
+    APP -- Take Assessment or publish use cases --> FN[UseCase AI Question Generator\nOCI Function]
+
+    FN --> OS[(OCI Object Storage\nUseCase_AI/)]
+    OS -- chroma_store.zip --> CH[ChromaDB vector store\nunpacked in /tmp]
+    FN --> CH
+    CH -- persisted zip --> OS
+
+    FN --> META{Delta detection\nchecksum per use case}
+    META -- new or changed --> GAI[OCI Generative AI\nCohere Command R+]
+    META -- unchanged --> SKIP[Skip regeneration]
+    GAI -- 5 MCQs + answer + explanation --> FN
+    FN -- questions/pillar/module/process/case.json --> OS
+    FN -- usecase_meta.json --> OS
+
+    FN -- full question set --> APP
+    APP --> DB[(Application DB\nquestions, answers, explanations)]
+    DB -- PL/SQL random selection\nquestions and options only --> EMP[Employee assessment]
+    EMP -- submitted answers --> DB
+    DB -- score + explanations --> EMP

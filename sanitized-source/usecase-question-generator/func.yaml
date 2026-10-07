@@ -1,0 +1,28 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# OCI Function 1 — UseCase AI Question Generator
+# Application  : UseCase AI
+# Shape        : GENERIC_X86
+# ─────────────────────────────────────────────────────────────────────────────
+schema_version: 20180708
+name: usecase-ai-question-generator
+version: "1.0.0"
+runtime: python311
+build_image: fnproject/python:3.11-dev
+run_image: fnproject/python:3.11
+entrypoint: /python/bin/fdk /function/func.py handler
+
+# Memory in MB — ChromaDB + GenAI response parsing needs headroom
+memory: 1024
+
+# Timeout in seconds (max 300 for OCI Functions)
+timeout: 300
+
+# ── Config (override via OCI Console → Function → Configuration) ─────────────
+# Placeholders only — set real values in the function configuration, never in Git.
+config:
+  OCI_NAMESPACE: sample_namespace
+  OCI_BUCKET: sample-usecase-bucket
+  OCI_COMPARTMENT_ID: "<compartment-ocid>"
+  OCI_GENAI_ENDPOINT: https://inference.generativeai.<region>.oci.oraclecloud.com
+  OCI_GENAI_MODEL_ID: "<generative-ai-model-ocid-or-name>"
+  QUESTIONS_PER_CASE: "5"
